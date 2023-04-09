@@ -1,36 +1,79 @@
-﻿Задача 54: Задайте двумерный массив. Напишите программу, которая упорядочит по убыванию элементы каждой строки двумерного массива.
-Например, задан массив:
-1 4 7 2
-5 9 2 3
-8 4 2 4
-В итоге получается вот такой массив:
-7 4 2 1
-9 5 3 2
-8 4 4 2
+﻿// Задача 58: Задайте две матрицы. Напишите программу, которая будет находить произведение двух матриц.
+// Например, даны 2 матрицы:
+// 2 4 | 3 4
+// 3 2 | 3 3
+// Результирующая матрица будет:
+// 18 20
+// 15 18
+Console.Clear();
+Console.Write("Введите количество строк 1 массива: ");
+int rowsA = int.Parse(Console.ReadLine()!);
+Console.Write("Введите количество столбцов 1 массива: ");
+int columnsA = int.Parse(Console.ReadLine()!);
+Console.Write("Введите количество строк 2 массива: ");
+int rowsB = int.Parse(Console.ReadLine()!);
+Console.Write("Введите количество столбцов 2 массива: ");
+int columnsB = int.Parse(Console.ReadLine()!);
 
-Задача 57: Составить частотный словарь элементов двумерного массива. Частотный словарь содержит информацию о том, сколько раз встречается элемент входных данных.
-1, 2, 3
-4, 6, 1
-2, 1, 6
-1 встречается 3 раза
-2 встречается 2 раз
-3 встречается 1 раз
-4 встречается 1 раз
-6 встречается 2 раза
+if(columnsA != rowsB)
+{
+  Console.WriteLine("Такие матрицы умножать нельзя!");
+  return;
+}
 
-Задача 58: Задайте две матрицы. Напишите программу, которая будет находить произведение двух матриц.
-Например, даны 2 матрицы:
-2 4 | 3 4
-3 2 | 3 3
-Результирующая матрица будет:
-18 20
-15 18
+int[,] A = GetArray(rowsA, columnsA, 0, 10);
+int[,] B = GetArray(rowsB, columnsB, 0, 10);
+PrintArray(A);
+Console.WriteLine();
+PrintArray(B);
+Console.WriteLine();
+PrintArray(GetMultiplicationMatrix(A,B));
 
-Задача 60. ...Сформируйте трёхмерный массив из неповторяющихся двузначных чисел. Напишите программу, которая будет построчно выводить массив, добавляя индексы каждого элемента.
-Массив размером 2 x 2 x 2
-66(0,0,0) 25(0,1,0)
-34(1,0,0) 41(1,1,0)
-27(0,0,1) 90(0,1,1)
-26(1,0,1) 55(1,1,1)
+//---------------метод перемножения матриц
+int[,] GetMultiplicationMatrix(int[,] arrayA, int[,] arrayB)
+{
+  int[,] arrayC = new int[arrayA.GetLength(0), arrayB.GetLength(1)];
+  for (int i = 0; i < arrayA.GetLength(0); i++)
+  {
+    for (int j = 0; j < arrayB.GetLength(1); j++)
+    {
+      for (int k = 0; k < arrayA.GetLength(1); k++)
+      {
+        arrayC[i,j]+=arrayA[i,k]*arrayB[k,j];
+      }
+    }
+
+  }
+  return arrayC;
+}
 
 
+
+
+// ----------------Заполнение массива
+int[,] GetArray(int m, int n, int minValue, int maxValue)
+{
+   int[,] res = new int[m, n];
+
+  for (int i = 0; i < m; i++)
+  {
+    for (int j = 0; j < n; j++)
+    {
+      res[i, j] = new Random().Next(minValue, maxValue+1);
+    }
+  }
+  return res;
+}
+
+// -----------------Вывод массива-----------------
+void PrintArray(int[,] array)
+{
+  for (int i = 0; i < array.GetLength(0); i++)
+  {
+    for (int j = 0; j < array.GetLength(1); j++)
+    {
+      Console.Write($"{array[i, j]} ");
+          }
+    Console.WriteLine();
+  }
+}
